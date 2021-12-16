@@ -1,6 +1,6 @@
 # harvardartmuseums_pkg
 
-A package to get datasets from Harvard Art Museums API.
+A package for getting datasets from the Harvard Art Museums API.
 
 ## Installation
 
