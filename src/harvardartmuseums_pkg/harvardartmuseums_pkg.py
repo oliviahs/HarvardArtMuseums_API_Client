@@ -94,13 +94,13 @@ def get_url_for_artist(country, gender, apikey):
     Parameters
     ----------
     country: str
-        A string that you wish to find in the culture of artists
+        A string of a culture name that you wish to find in artists
     gender: str
-        A string that you wish to find in the gender of artists
+        A string of gender (female/male) that you wish to find in artists
     apikey: str
         A string of your apikey, given by Harvard Art Museums;
         https://harvardartmuseums.org/collections/api
-    
+   
     Returns
     -------
     str
@@ -157,72 +157,6 @@ def get_artist(url):
         pass
     
     
-    
-    
-def get_request_for_artworks(artist_name, apikey):
-    """
-    This function generates a request for Harvard Art Museums API to get a dataset with all artworks of an artists you choose.
-    
-    Parameters
-    ----------
-    artist_name: str
-        A string of an artist name to get his/her artworks
-    apikey: str
-        A string of your apikey, given by Harvard Art Museums;
-        https://harvardartmuseums.org/collections/api
-    
-    Returns
-    -------
-    urllib3.response.HTTPResponse
-        A response to put into the get_artworks() function, which will give you the dataset.
-    
-    Examples
-    --------
-    >>> from harvardartmuseums_pkg import harvardartmuseums_pkg
-    >>> artist_name='Claude Monet'
-    >>> apikey = "yourapikey"
-    >>> harvardartmuseums_pkg.get_request_for_artworks(artist_name, apikey)
-    <urllib3.response.HTTPResponse at 0x7fb5eb62e3d0>
-    """
-    http = urllib3.PoolManager()
-    artist_request = http.request('GET', 'https://api.harvardartmuseums.org/person',
-    fields = {
-        'apikey': apikey,
-        "q": "displayname : " + artist_name,
-        "size": 100
-    })
-    return artist_request
-
-
-
-
-def get_artworks(request):
-    """
-    Generates dataset of all artworks of an artist.
-    
-    Parameters
-    ----------
-    request : urllib3.response.HTTPResponse
-        A response, created by get_request_for_artworks(artist_name, apikey) function.
-    
-    Returns
-    -------
-    A dataframe
-        The dataset of all list of artworks of the artist with information, such as displayname, id, url, culture.
-    
-    Examples
-    --------
-    >>> from harvardartmuseums_pkg import harvardartmuseums_pkg
-    >>> harvardartmuseums_pkg.get_artworks(your_request)
-    Output will be a pandas dataframe with all list of artworks of the artist with information, such as displayname, id, url, culture. 
-    """
-    artworks = pd.DataFrame.from_dict(json.loads(request.data)['records'])
-    # to get exact match
-    artworks = artworks[artworks['displayname'].str.contains(artist_name)]
-    return artworks
-
-
-
 
 def get_url_for_exhibition(after, before, apikey):
     """
